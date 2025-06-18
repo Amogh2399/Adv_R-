@@ -46,6 +46,22 @@ ggplot(top_artists, aes(x = reorder(artist_name, total_hours), y = total_hours))
        y = "Total Listening Time (hours)") +
   theme_minimal()
 ```
+```{r}
+# Add a column in seconds
+spotify <- spotify %>% 
+  mutate(seconds_played = ms_played / 1000)
+
+# Plot histogram
+ggplot(spotify, aes(x = seconds_played)) +
+  geom_histogram(binwidth = 10, fill = "steelblue", color = "black") +
+  labs(
+    title = "Distribution of Track Play Durations",
+    x = "Play Duration (seconds)",
+    y = "Frequency"
+  ) +
+  theme_minimal() +
+  xlim(0, 400)
+```
 
 **Following are the Observations:**
 
