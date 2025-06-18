@@ -1,0 +1,56 @@
+---
+title: "Spotify Listening History Analysis"
+author: "Amogh Agarwal & 24217682"
+format: pdf
+editor: visual
+execute:
+  echo: false
+---
+
+🎵 **Introduction**
+
+This document provides a brief exploratory analysis of a Spotify listening history dataset. The dataset includes information about individual tracks played, artists, albums, the platform used, and timestamps.
+
+# 🔍 Dataset Summary
+
+The dataset contains **Spotify track play records** collected over time. Key variables include:
+
+-   `artist_name`: Name of the artist.
+-   `ms_played`: Duration (in milliseconds) of each play.
+-   `ts`: Timestamp when the track was played.
+
+# 🎶 Most Played Artists
+
+Below is a bar chart showing the **top 10 most played artists**, based on total listening time (in hours).
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Load dataset
+spotify <- read.csv("spotify_history.csv")
+
+# Process data to compute top 10 most played artists by time in hours
+top_artists <- spotify %>%
+  group_by(artist_name) %>%
+  summarise(total_hours = sum(ms_played, na.rm = TRUE) / (1000 * 60 * 60)) %>%
+  arrange(desc(total_hours)) %>%
+  slice_head(n = 10)
+
+# Plot
+ggplot(top_artists, aes(x = reorder(artist_name, total_hours), y = total_hours)) +
+  geom_bar(stat = "identity", fill = "brown") +
+  coord_flip() +
+  labs(title = "Top 10 Most Played Artists",
+       x = "Artist",
+       y = "Total Listening Time (hours)") +
+  theme_minimal()
+```
+
+**Following are the Observations:**
+
+-   The bar chart highlights listening preferences over time.
+
+-   The Beatles appears prominently in the dataset , suggesting high user engagement.
+
+-   Data includes both fully played and partially skipped songs.
