@@ -62,7 +62,26 @@ ggplot(spotify, aes(x = seconds_played)) +
   theme_minimal() +
   xlim(0, 400)
 ```
+```{r}
+# Convert timestamp to Date
+spotify <- spotify %>%
+  mutate(date = as.Date(ts))
 
+# Aggregate total play time per day (in hours)
+daily_activity <- spotify %>%
+  group_by(date) %>%
+  summarise(daily_hours = sum(ms_played, na.rm = TRUE) / (1000 * 60 * 60))
+
+# Plot
+ggplot(daily_activity, aes(x = date, y = daily_hours)) +
+  geom_line(color = "darkgreen") +
+  labs(
+    title = "Daily Listening Time",
+    x = "Date",
+    y = "Total Listening Time (hours)"
+  ) +
+  theme_minimal()
+```
 **Following are the Observations:**
 
 -   The bar chart highlights listening preferences over time.
