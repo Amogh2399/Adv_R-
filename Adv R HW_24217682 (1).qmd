@@ -1,6 +1,6 @@
 ---
 title: "Spotify Listening History Analysis"
-author: "Amogh Agarwal & 24217682"
+author: "Amogh Agarwal "
 format: pdf
 editor: visual
 execute:
